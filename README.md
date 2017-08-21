@@ -158,8 +158,9 @@ import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/catalog/")
 
-from catalog import app as application```
-  
+from catalog import app as application
+```
+
 Restart Apache:
 `sudo service apache2 restart`
 
