@@ -87,6 +87,8 @@ select 'None of the above' and then 'UTC.'
 
 `sudo pip3 install flask packaging oauth2client redis passlib flask-httpauth`
 
+`sudo pip3 install sqlalchemy flask-sqlalchemy psycopg2 bleach requests`
+
 Install virtualenv:
 
 `sudo pip3 install virtualenv`
@@ -120,9 +122,12 @@ Deactivate the environment:
 `sudo nano /etc/apache2/sites-available/catalog.conf`
 
 content: 
-<VirtualHost *:80>
-      ServerName 52.43.34.75
-      ServerAdmin admin@catalog.udacity.com
+
+```<VirtualHost *:80>
+      ServerName ec2-34-208-37-135.us-west-2.compute.amazonaws.com
+      ServerAdmin admin@catalog.com
+      WSGIDaemonProcess catalog python-path=/var/www/catalog:/var/www/catalog/catalog/venv/lib/python3.5/site-packages
+      WSGIProcessGroup catalog
       WSGIScriptAlias / /var/www/catalog/catalog.wsgi
       <Directory /var/www/catalog/catalog/>
           Order allow,deny
@@ -136,7 +141,7 @@ content:
       ErrorLog ${APACHE_LOG_DIR}/error.log
       LogLevel warn
       CustomLog ${APACHE_LOG_DIR}/access.log combined
- </VirtualHost>
+ </VirtualHost>```
  
  
 Enable the virtual host:
@@ -147,16 +152,90 @@ Create wsgi file:
 `sudo nano catalog.wsgi`
 
 content:
- #!/usr/bin/python
-  import sys
-  import logging
-  logging.basicConfig(stream=sys.stderr)
-  sys.path.insert(0,"/var/www/catalog/")
-  
-  from catalog import app as application
-  application.secret_key = 'SECRET_KEY'
+ ```#!/usr/bin/python3
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/catalog/")
+
+from catalog import app as application```
   
 Restart Apache:
 `sudo service apache2 restart`
 
+11. Install Git
 
+`sudo apt-get install git`
+
+12. Clone source code and setup enviroment
+      1. Make catalog folder
+      `cd /var/www/`
+      
+      `sudo mkdir catalog`
+
+      `cd catalog`
+      
+      2. Clone source code into catalog folder     
+
+      `sudo git clone https://github.com/vinhphucit/Udacity-FSND-05-Neighborhood-Mapp`
+      
+      3. Rename folder to catalog
+      `sudo mv Udacity-FSND-05-Neighborhood-Mapp catalog`
+      
+      4. Go to catalog folder and rename application.py to __init__.py
+      
+      `cd catalog`
+      
+      `sudo mv application.py __init__.py`
+      
+      5. Go to database folder and create new __init__.py 
+      
+      6. Setup enviroment for the project
+      `sudo pip3 install virtualenv`
+      
+      `sudo virtualenv venv`
+      
+      `sudo chmod -R 777 venv`
+      
+      `source venv/bin/activate`
+      
+      `pip3 install Flask`
+      
+      `deactivate`
+
+13. Install Postgres
+      1. Install
+      `sudo apt-get install postgresql postgresql-contrib`
+      
+      2. Create needed linux user for psql
+      `sudo adduser catalog`
+      
+      3.Change to default user postgres:
+      `sudo su - postgres`
+      
+      4. Connect to the system:
+      `psql`
+      
+      5. Create user and password in postgre
+      `CREATE USER catalog WITH PASSWORD 'catalog'`
+      
+      6. Add Role "Create Database" for user "catalog"
+      `ALTER USER catalog CREATEDB;`
+      
+      7. Create database:
+      `CREATE DATABASE catalog WITH OWNER catalog;`
+
+      8. Connect to the database catalog 
+      `\c catalog`
+      
+      9. Revoke all rights:
+      `REVOKE ALL ON SCHEMA public FROM public;`
+      
+      10.Grant only access to the catalog role:
+      `GRANT ALL ON SCHEMA public TO catalog;`
+      
+      11. Exit out of PostgreSQl and the postgres user:
+      `\q` then `exit`
+
+      12. Create postgreSQL database schema:
+      `python3 database_setup.py`
