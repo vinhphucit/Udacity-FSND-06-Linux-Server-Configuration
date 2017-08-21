@@ -26,12 +26,18 @@ In local machine create keypair with command:
 `sudo ssh-keygen`
 
 In the server, create public key and grant permission for public key
-`mkdir /home/grader/.ssh`
-`touch /home/grader/.shh/authorized_keys`
-`chown grader /home/grader/.ssh`
-`chown grader /home/grader/.ssh/authorized_keys`
-`chmod 700 /home/grader/.ssh`
-`chmod 600 /home/grader/.ssh/authorized_keys`
+
+`sudo mkdir /home/grader/.ssh` 
+
+`sudo touch /home/grader/.shh/authorized_keys` 
+
+`sudo chown grader /home/grader/.ssh` 
+
+`sudo chown grader /home/grader/.ssh/authorized_keys` 
+
+`sudo chmod 700 /home/grader/.ssh` 
+
+`sudo chmod 600 /home/grader/.ssh/authorized_keys` 
 
 open public key (filename.pub) created in local machine, copy its content and paste to authorized_keys
 
@@ -55,41 +61,62 @@ Add 2200 to the list so you will be able to connect to the server
 7. Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
 deny all incomping and outgoing then add neccessary ports
 
-`sudo ufw default deny incoming`
-`sudo ufw default allow outgoing`
-`sudo ufw allow 2200/tcp`
-`sudo ufw allow http`
-`sudo ufw allow ntp`
-`sudo ufw enable`
+`sudo ufw default deny incoming` 
+
+`sudo ufw default allow outgoing` 
+
+`sudo ufw allow 2200/tcp` 
+
+`sudo ufw allow http` 
+
+`sudo ufw allow ntp` 
+
+`sudo ufw enable` 
 
 8. Configure the local timezone to UTC.
 
 `sudo dpkg-reconfigure tzdata`
+
 select 'None of the above' and then 'UTC.'
 
 9. Install python3, flask and other libs for project
+
 `sudo apt-get -qqy install python3 python3-pip`
+
 `sudo pip3 install --upgrade pip`
+
 `sudo pip3 install flask packaging oauth2client redis passlib flask-httpauth`
+
 Install virtualenv:
+
 `sudo pip3 install virtualenv`
 
 Set virtual environment to name 'venv':
+
 `sudo virtualenv venv`
 
 Enable all permissions for the new virtual environment:
+
 `sudo chmod -R 777 venv`
 
 Activate the virtual environment:
+
 `source venv/bin/activate`
+
 Install Flask inside the virtual environment:
+
 `pip3 install Flask`
+
 Run the app:
+
 `python3 __init__.py`
+
 Deactivate the environment:
+
 `deactivate`
 
 10. Create a virtual host config file
+
 `sudo nano /etc/apache2/sites-available/catalog.conf`
 
 content: 
