@@ -79,7 +79,10 @@ deny all incomping and outgoing then add neccessary ports
 
 select 'None of the above' and then 'UTC.'
 
-9. Install python3, flask and other libs for project
+9. Install python3, apache2, wsgi, flask and other libs for project
+`sudo apt-get install apache2`
+
+`sudo apt-get install python-setuptools libapache2-mod-wsgi`
 
 `sudo apt-get -qqy install python3 python3-pip`
 
@@ -89,33 +92,7 @@ select 'None of the above' and then 'UTC.'
 
 `sudo pip3 install sqlalchemy flask-sqlalchemy psycopg2 bleach requests`
 
-Install virtualenv:
-
-`sudo pip3 install virtualenv`
-
-Set virtual environment to name 'venv':
-
-`sudo virtualenv venv`
-
-Enable all permissions for the new virtual environment:
-
-`sudo chmod -R 777 venv`
-
-Activate the virtual environment:
-
-`source venv/bin/activate`
-
-Install Flask inside the virtual environment:
-
-`pip3 install Flask`
-
-Run the app:
-
-`python3 __init__.py`
-
-Deactivate the environment:
-
-`deactivate`
+`sudo pip3 install Flask`
 
 10. Create a virtual host config file
 
@@ -189,21 +166,6 @@ Restart Apache:
       
       `sudo mv application.py __init__.py`
       
-      5. Go to database folder and create new __init__.py 
-      
-      6. Setup enviroment for the project
-      `sudo pip3 install virtualenv`
-      
-      `sudo virtualenv venv`
-      
-      `sudo chmod -R 777 venv`
-      
-      `source venv/bin/activate`
-      
-      `pip3 install Flask`
-      
-      `deactivate`
-
 13. Install Postgres
       1. Install
       `sudo apt-get install postgresql postgresql-contrib`
