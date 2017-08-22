@@ -100,11 +100,10 @@ select 'None of the above' and then 'UTC.'
 
 content: 
 
-```<VirtualHost *:80>
-      ServerName ec2-34-208-37-135.us-west-2.compute.amazonaws.com
+```
+<VirtualHost *:80>
+      ServerName ec2-34-210-27-14.us-west-2.compute.amazonaws.com
       ServerAdmin admin@catalog.com
-      WSGIDaemonProcess catalog python-path=/var/www/catalog:/var/www/catalog/catalog/venv/lib/python3.5/site-packages
-      WSGIProcessGroup catalog
       WSGIScriptAlias / /var/www/catalog/catalog.wsgi
       <Directory /var/www/catalog/catalog/>
           Order allow,deny
@@ -129,13 +128,15 @@ Create wsgi file:
 `sudo nano catalog.wsgi`
 
 content:
- ```#!/usr/bin/python3
+ ```
+ #!/usr/bin/python3
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/catalog/")
 
 from catalog import app as application
+application.secret_key = 'the secret key for the app'
 ```
 
 Restart Apache:
@@ -155,7 +156,7 @@ Restart Apache:
       
       2. Clone source code into catalog folder     
 
-      `sudo git clone https://github.com/vinhphucit/Udacity-FSND-05-Neighborhood-Mapp`
+      `sudo git clone https://github.com/vinhphucit/Udacity-FSND-04-Item-Catalog`
       
       3. Rename folder to catalog
       `sudo mv Udacity-FSND-05-Neighborhood-Mapp catalog`
@@ -180,7 +181,7 @@ Restart Apache:
       `psql`
       
       5. Create user and password in postgre
-      `CREATE USER catalog WITH PASSWORD 'catalog'`
+      `CREATE USER catalog WITH PASSWORD 'catalog';`
       
       6. Add Role "Create Database" for user "catalog"
       `ALTER USER catalog CREATEDB;`
